@@ -301,18 +301,33 @@ function($, Spotboard) {
 
         // TODO 이거 이렇게 의존성 있어도 되려나?_?
         // 나중에 Manager 쪽에서 설정하도록 고치자
-        $(document).bind('keyup', function(e) {
-            var KEY_CODES = {
-                RIGHT: 39,
-                ENTER: 13,
-                SEMICOLON: 186,
-                ESC: 27
-            };
-            if(e.keyCode == KEY_CODES.ENTER || e.keyCode == KEY_CODES.RIGHT || e.keyCode == KEY_CODES.SEMICOLON) {
-                Spotboard.Award.proceedOne();
+        const KEY_CODES = {
+            PAGE_UP: 33,
+            PAGE_DOWN: 34,
+            RIGHT: 39,
+            ENTER: 13,
+            SEMICOLON: 186,
+            ESC: 27
+        };
+        $(document).bind('keydown', function(e) {
+            for (let key in KEY_CODES) {
+                if (KEY_CODES[key] === e.keyCode) {
+                    e.preventDefault();
+                    break;
+                }
             }
-            else if(e.keyCode == KEY_CODES.ESC) {
-                Spotboard.Award.AwardSlide.hide();
+        });
+        $(document).bind('keyup', function(e) {
+            for (let key in KEY_CODES) {
+                if (KEY_CODES[key] === e.keyCode) {
+                    e.preventDefault();
+                    if (key === 'ESC' || key === 'PAGE_UP') {
+                        Spotboard.Award.AwardSlide.hide();
+                    } else {
+                        Spotboard.Award.proceedOne();
+                    }
+                    break;
+                }
             }
         });
 
