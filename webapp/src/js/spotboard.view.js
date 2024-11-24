@@ -126,7 +126,7 @@ function($, Handlebars, Spotboard) {
                 solved : 0,
                 rank : 1,
                 suffix : "st",    // 어차피 나중에 update 할 것임. 그전까지만 1st
-                name : isTeamInfoHidden ? "Team " + team.getId() : team.getName(),
+                name : isTeamInfoHidden ? "Hidden Team" : team.getName(),
                 group : isTeamInfoHidden ? "Unknown" : team.getGroup(),
                 penalty : 0,
                 problems: problems

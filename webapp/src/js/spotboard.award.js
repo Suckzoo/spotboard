@@ -62,9 +62,10 @@ function($, Spotboard) {
             }
             // set up priority (larger is earlier)
             for(var i = 0; i < priority.length; ++ i) priority[i] = -i;
+
             for(var i = 0; i < order.length; ++ i) {
                 var id = problemToId[order[i]] || parseInt(order[i]);
-                priority[id] += (order.length - i) * 10000;
+                priority[id] = (order.length - i) * 10000;
             }
             return priority;
         })();
@@ -302,6 +303,8 @@ function($, Spotboard) {
         // TODO 이거 이렇게 의존성 있어도 되려나?_?
         // 나중에 Manager 쪽에서 설정하도록 고치자
         const KEY_CODES = {
+            C: 67,
+            D: 68,
             PAGE_UP: 33,
             PAGE_DOWN: 34,
             RIGHT: 39,
@@ -321,7 +324,7 @@ function($, Spotboard) {
             for (let key in KEY_CODES) {
                 if (KEY_CODES[key] === e.keyCode) {
                     e.preventDefault();
-                    if (key === 'ESC' || key === 'PAGE_UP') {
+                    if (key === 'ESC' || key === 'PAGE_UP' || key === 'D') {
                         Spotboard.Award.AwardSlide.hide();
                     } else {
                         Spotboard.Award.proceedOne();
@@ -540,8 +543,9 @@ function($, Spotboard) {
 
         getSlideData : function(team) {
             var teamId;
-            if(typeof team === 'number' || typeof team === 'string')
-                teamId = parseInt(team);
+            if(typeof team === 'number' || typeof team === 'string') {
+                teamId = team;
+            }
             else teamId = team.getId();
 
             return Spotboard.Award.AwardSlide.data[teamId] || null;

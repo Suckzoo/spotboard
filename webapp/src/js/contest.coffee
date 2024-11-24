@@ -374,12 +374,12 @@ class Contest
 
         @problems = []
         for p in problems
-            pid = parseInt(p.id)
+            pid = p.id
             continue if typeof pid == 'undefined'
             @problems.push( new Problem(this, pid, p.name, p.title, p.color) )
         @teams = []
         for t in teams
-            tid = parseInt(t.id)
+            tid = t.id
             @teams[tid] = new Team(this, tid, t.name, t.group)
 
 
@@ -426,7 +426,7 @@ class Contest
     getProblem : (p) ->
         return p if (p instanceof Problem)
         if typeof p in ["number", "string"]
-            pid = parseInt(p)
+            pid = p
             for prob in @problems
                 return prob if prob.id == pid
         throw new Error('#getProblem : illegal argument `p`')
@@ -434,10 +434,9 @@ class Contest
     getTeam : (t) ->
         return t if (t instanceof Team)
         if typeof t in ["number", "string"]
-            t = parseInt(t)
             return @teams[t] if not isNaN(t)
         else if typeof t.id in ["number", "string"]
-            t = parseInt(t.id)
+            t = t.id
             return @teams[t] if not isNaN(t)
         throw new Error('#getTeam : illegal argument `t`')
 
@@ -550,10 +549,8 @@ class RunFeeder
         runs = []
         for r in data['runs']
             rid = parseInt(r.id)
-            pid = parseInt(r.problem)
-            if isNaN(pid) then pid = parseInt(r.problem?.id)
-            tid = parseInt(r.team)
-            if isNaN(tid) then tid = parseInt(r.team?.id)
+            pid = r.problem
+            tid = r.team
 
             run = new Run(@contest, rid, \
                 @contest.getProblem(pid), @contest.getTeam(tid), \
